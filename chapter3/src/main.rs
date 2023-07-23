@@ -223,7 +223,7 @@ fn main() {
  */
 
 // Linked List
-
+/*
 use crate::List::*;
 
 enum List {
@@ -267,4 +267,28 @@ fn main() {
 
     println!("Length of linked list: {}", list.len());
     println!("{}", list.stringify());
+}
+*/
+
+// constants
+
+// rust has two different types of constants
+// 1. const
+// 2. static
+
+static LANGUAGE: &str = "Rust";
+const THRESHOLD: i32 = 10;
+
+fn is_big(n: i32) -> bool {
+    n > THRESHOLD
+}
+
+fn main() {
+    let n = 16;
+
+    println!("This is {}", LANGUAGE);
+    println!("THe threshold is {}", THRESHOLD);
+    println!("{} is {}", n, if is_big(n) { "big" } else { "small" });
+
+    // THRESHOLD = 5;
 }
