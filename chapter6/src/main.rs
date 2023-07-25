@@ -2,9 +2,9 @@
 
 // From and Into traits
 
-/* use std::convert::From;
+use std::convert::From;
 
-use std::fmt;
+use std::fmt::{self, Formatter};
 
 struct Number {
     value: i32,
@@ -24,7 +24,7 @@ impl From<i32> for Number {
 // note that Into is automatically implemented by primitive type if From is implemented by desired type.
 // One will have to specially typecast to get value
 
-fn main() {
+fn part1() {
     let number = 5i32;
     let my_number = Number::from(number);
     println!("My number: {}", my_number);
@@ -33,13 +33,12 @@ fn main() {
     let num: Number = int.into();
     println!("Now my number is {}", num);
 }
-*/
 
 // TryFrom and TryInto
 
 // they are fallable version of From and Into which return Result
 
-/* use std::convert::TryFrom;
+use std::convert::TryFrom;
 use std::convert::TryInto;
 
 #[derive(Debug, PartialEq)]
@@ -57,7 +56,7 @@ impl TryFrom<i32> for EvenNumber {
     }
 }
 
-fn main() {
+fn part2() {
     assert_eq!(EvenNumber::try_from(8), Ok(EvenNumber(8)));
     assert_eq!(EvenNumber::try_from(5), Err(()));
 
@@ -66,13 +65,10 @@ fn main() {
     let result: Result<EvenNumber, ()> = 5i32.try_into();
     assert_eq!(result, Err(()));
 }
-*/
 
 // To and From Strings
 
 // we can implement ToString trait or instead Display trait automatically adds ToString trait
-
-use std::fmt::{self, Formatter};
 
 struct Circle {
     radius: i32,
@@ -84,7 +80,7 @@ impl fmt::Display for Circle {
     }
 }
 
-fn main() {
+fn part3() {
     let circle = Circle { radius: 5 };
     println!("{}", circle.to_string());
 
@@ -93,4 +89,10 @@ fn main() {
     let parsed: i32 = "5".parse().unwrap();
     let turbo_parsed = "10".parse::<i32>().unwrap();
     println!("{}, {}", parsed, turbo_parsed);
+}
+
+fn main() {
+    part1();
+    part2();
+    part3();
 }

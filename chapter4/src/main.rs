@@ -1,7 +1,7 @@
 // Variable bindings
 
 // mutability
-/* fn main() {
+fn part1() {
     let _immutable_binding = 1;
     let mut mutable_binding = 1;
 
@@ -11,11 +11,10 @@
 
     println!("Before mutation: {}", mutable_binding);
 }
- */
 
 // scope and shadowing
 
-fn main() {
+fn part2() {
     let outer_variable = 5;
     {
         let outer_variable = "abc";
@@ -44,4 +43,9 @@ fn main() {
     }
     _mutable_integer = 7;
     // not frozen in this scope
+}
+
+fn main() {
+    part1();
+    part2();
 }
