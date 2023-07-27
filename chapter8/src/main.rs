@@ -140,6 +140,135 @@ fn part7() {
     println!("Modified: {:?}", names);
 }
 
+// match
+
+fn part8() {
+    // match can be used like a C switch
+    let number = 7;
+    match number {
+        1 => println!("One"),
+        2 | 3 | 5 | 7 | 9 | 11 => println!("Prime number"),
+        13..=19 => println!("Teen"),
+        _ => println!("Too big to analyze"),
+    }
+
+    let boolean = true;
+    let _binary = match boolean {
+        true => 1,
+        false => 0,
+    };
+}
+
+// match destructuring
+
+fn part9() {
+    println!("Tuples :-");
+
+    let triple = (3, 1, 5);
+    match triple {
+        (0, y, z) => println!("`0` : `{:?}` : `{:?}", y, z),
+        (1, ..) => println!("1 : something"),
+        (.., 2) => println!("something : 2"),
+        (3, .., 4) => println!("3 : something : 4"),
+        _ => println!("It is something not special"),
+    }
+
+    println!("Arrays :-");
+    let array = [2, 5, 9, 7];
+    match array {
+        [0, y, z, ..] => println!("0, {y}, {z}"),
+        // use _ to ignore single value
+        [1, y, ..] => println!("starts with 1 then has {y}"),
+
+        [3, second, tail @ ..] => println!(
+            "array[0] = 3, array[1] = {second} and other elements are {:?}",
+            tail
+        ),
+
+        [first, middle @ .., last] => println!(
+            "array[0] = {}, middle = {:?}, array[2] = {}",
+            first, middle, last
+        ),
+    }
+
+    // enum and structs can also be destructured in obvious manner
+    println!("Structs");
+    struct Foo {
+        x: (u32, u32),
+        y: u32,
+    }
+
+    let foo = Foo { x: (1, 2), y: 3 };
+
+    match foo {
+        Foo { x: (1, a), y } => println!("Got {a}"),
+        Foo { x, .. } => (),
+    }
+}
+
+// pointers/ref
+// Dereferencing => `*`
+// Destructuring => `&`, `ref`, and `ref mut`
+
+fn part10() {
+    let reference = &4;
+    match reference {
+        &val => println!("Got by destructuring, {:?}", val),
+    }
+
+    match *reference {
+        val => println!("Got by dereferencing: {:?}", val),
+    }
+
+    // another way to assign reference
+    let ref _a_reference = 4;
+
+    let value = 4;
+    match value {
+        ref r => println!("Got a reference: {:?}", r),
+    }
+
+    // similarly ref mut can be used
+    let mut mut_value = 7;
+    match mut_value {
+        ref mut m => {
+            *m += 10; // deref is mandatory before adding
+            println!("New value of mut_value is {:?}", m);
+        }
+    }
+}
+
+// match guards
+
+fn part11() {
+    let number = 4u8;
+
+    match number {
+        i if i == 0 => println!("Zero"),
+        i if i > 0 => println!("Greater then zero"),
+        _ => unreachable!("Should never happen, but mandatory because compiler does not check guard condition in match"),
+    }
+}
+
+// @ sigil to prevent rebinding
+
+fn age() -> u32 {
+    19
+}
+
+fn part12() {
+    match age() {
+        1 => println!("Haven't celebrated first birthday"),
+        // this will allow to use range condition and get value
+        n @ 1..=12 => println!("A child of age {}", n),
+        n @ 13..=19 => println!("A teenager of age {}", n),
+        n => println!("A old person of age {}", n),
+    }
+
+    // can also use in enum destructuring
+    // MyEnum::Variant(n @ 15) => printlN!("15!")
+}
+
 fn main() {
     // part1();
     // part2();
@@ -147,5 +276,10 @@ fn main() {
     // part4();
     // part5();
     // part6();
-    part7();
+    // part7();
+    // part8();
+    // part9();
+    // part10();
+    part11();
+    part12();
 }
