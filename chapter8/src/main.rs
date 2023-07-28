@@ -269,6 +269,92 @@ fn part12() {
     // MyEnum::Variant(n @ 15) => printlN!("15!")
 }
 
+// if let -> when we know the situation will never differ
+
+fn part13() {
+    let number = Some(7);
+    if let Some(i) = number {
+        println!("Number matched: {}", i);
+    }
+
+    let letter: Option<char> = None;
+    // for using _,
+    if let Some(i) = letter {
+        println!("Got letter {}", i)
+    } else {
+        println!("Could not match with Some")
+    }
+
+    // for particular cases
+    let i_like_letters = false;
+    let emoticon: Option<i32> = None;
+    if let Some(i) = emoticon {
+        println!("Matched {}", i);
+    } else if i_like_letters {
+        println!("Letters, which you like ");
+    } else {
+        println!("Neither letters nor emoticons..");
+    }
+
+    // note that we can use if-let to match enum variants even if it does not implement PartialEq
+}
+
+// let-else
+// to match a pattern otherwise necessarily do a task (diverge ie.e break/return/panic)
+
+use std::str::FromStr;
+
+fn get_count_item(s: &str) -> (u64, &str) {
+    let mut iterator = s.split(' ');
+
+    let (Some(count_str), Some(item)) = (iterator.next(), iterator.next()) else {
+        panic!("Cant segment pair");
+    };
+
+    let Ok(count) = u64::from_str(count_str) else {
+        panic!("Cant parse the integer");
+    };
+    (count, item)
+}
+
+fn part14() {
+    assert_eq!(get_count_item("3 chairs"), (3, "chairs"));
+}
+
+// while let
+
+fn part15() {
+    let mut optional = Some(0);
+    loop {
+        match optional {
+            Some(i) => {
+                if i > 9 {
+                    println!("Exiting");
+                    optional = None;
+                } else {
+                    println!("i is {} still", i);
+                    optional = Some(i + 1);
+                }
+            }
+            _ => {
+                break;
+            }
+        }
+    }
+
+    // equivalent :-
+    let mut optional = Some(0);
+    while let Some(i) = optional {
+        if i > 9 {
+            println!("Exiting");
+            optional = None;
+        } else {
+            println!("i is {} yet", i);
+            optional = Some(i + 1);
+        }
+    }
+}
+
 fn main() {
     // part1();
     // part2();
@@ -280,6 +366,9 @@ fn main() {
     // part8();
     // part9();
     // part10();
-    part11();
-    part12();
+    // part11();
+    // part12();
+    // part13();
+    // part14();
+    part15();
 }
