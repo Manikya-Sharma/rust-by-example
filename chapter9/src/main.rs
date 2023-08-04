@@ -276,6 +276,64 @@ fn part8() {
     // for index of a position, use Iterator::position
 }
 
+// Higher order functions
+
+// these are functions which take a function and provide another function
+// they can drastically reduce code size but provide less control
+
+fn is_odd(n: u32) -> bool {
+    n % 2 == 1
+}
+
+fn part9() {
+    let upper = 1000;
+    println!("Sum of squared odd numbers");
+    // imperative approach
+    let mut acc = 0;
+    for n in 0.. {
+        let n_square = n * n;
+        if n_square >= upper {
+            break;
+        } else if is_odd(n_square) {
+            acc += n_square;
+        }
+    }
+    println!("First Approach: {}", acc);
+
+    // functional approach
+    let required_sum: u32 = (0..)
+        .map(|n| n * n)
+        .take_while(|&n_square| n_square < upper)
+        .filter(|&n_square| is_odd(n_square))
+        .sum();
+    println!("Second Approach: {}", required_sum);
+}
+
+// diverging functions
+// they never return
+
+fn foo() -> ! {
+    panic!("I cant return anything! not like returning ()");
+}
+// it can be cast to any type therefore used in many places
+
+// also used in network servers. process terminators
+
+fn part10() {
+    fn sum_odd(up_to: u32) -> u32 {
+        let mut sum = 0;
+        for i in 0..up_to {
+            let addition: u32 = match i % 2 == 1 {
+                true => i,
+                false => continue, //continue returns never type which can be cast to u32 implicitly
+            };
+            sum += addition;
+        }
+        sum
+    }
+    println!("Sum of odd numbers: {}", sum_odd(10));
+}
+
 fn main() {
     // part1();
     // part2();
@@ -284,5 +342,7 @@ fn main() {
     // part5();
     // part6();
     // part7();
-    part8();
+    // part8();
+    // part9();
+    part10();
 }
